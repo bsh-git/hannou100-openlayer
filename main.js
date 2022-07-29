@@ -137,8 +137,8 @@ var map = new Map({
     ],
     controls: defaultControls({attribution: false}).extend([attribution]),
     view: new View({
-        center: fromLonLat([139.1011, 35.8653]),
-        zoom: 15
+        center: fromLonLat([139.2122, 35.8875]),
+        zoom: 12
     })
 });
 
