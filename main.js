@@ -13,6 +13,7 @@ import {Attribution, defaults as defaultControls} from 'ol/control';
 import {Circle, Stroke, Style} from 'ol/style';
 import {Vector as VectorSource} from 'ol/source';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'ol/interaction';
 
 const image = new Circle({
     radius: 8,
@@ -48,15 +49,83 @@ function readJson() {
                 source: vectorSource,
 //                style: styleFunction,
                 style: new Style({
-                    image: image                    
+                    image: image
                 })
             }))
         })
 }
 
+class Inspection extends PointerInteraction {
+  constructor() {
+    super({
+//      handleDownEvent: handleDownEvent,
+//      handleDragEvent: handleDragEvent,
+      handleMoveEvent: handleMoveEvent,
+//      handleUpEvent: handleUpEvent,
+    });
+
+    /**
+     * @type Coordinate
+     * @private
+     */
+    this.coordinate_ = null;
+
+    /**
+     * @type {string|undefined}
+     * @private
+     */
+    this.cursor_ = 'pointer';
+
+    /**
+     * @type {Feature}
+     * @private
+     */
+    this.feature_ = null;
+
+    /**
+     * @type {string|undefined}
+     * @private
+     */
+    this.previousCursor_ = undefined;
+  }
+}
+
+/**
+ * @param evt Event.
+ */
+function handleMoveEvent(evt) {
+    if (this.cursor_) {
+        const map = evt.map;
+        const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+            return feature;
+        });
+        const element = evt.map.getTargetElement();
+        if (feature) {
+            if (element.style.cursor != this.cursor_) {
+                this.previousCursor_ = element.style.cursor;
+                element.style.cursor = this.cursor_;
+            }
+            let name = feature.get('name')
+            let number = feature.get('number')
+
+            document.getElementById('info').innerHTML = `${number}. ${name}`
+
+        } else {
+            document.getElementById('info').innerHTML = ""
+
+            if (this.previousCursor_ !== undefined) {
+                element.style.cursor = this.previousCursor_;
+                this.previousCursor_ = undefined;
+            }
+        }
+    }
+}
+
+
 var map = new Map({
     target: 'map',
     renderer: ['canvas', 'dom'],
+    interactions: defaultInteractions().extend([new Inspection()]),
     layers: [
         new TileLayer({
             source: new XYZ({
@@ -74,4 +143,3 @@ var map = new Map({
 });
 
 readJson()
-
