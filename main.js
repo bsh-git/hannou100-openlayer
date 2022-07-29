@@ -28,55 +28,16 @@ const styleFunction = function (feature) {
   return styles[feature.getGeometry().getType()];
 };
 
-const Hannou100 = {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": fromLonLat([
-                    139.1011111111111,
-                    35.86527777777778
-                ])
-            },
-            "properties": {
-                "name": "\u65e5\u5411\u6ca2\u306e\u5cf0",
-                "altitude": "1356"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": fromLonLat([
-                    139.11583333333334,
-                    35.88638888888889
-                ])
-            },
-            "properties": {
-                "name": "\u6709\u9593\u5c71",
-                "altitude": "1214"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": fromLonLat([
-                    139.10833333333332,
-                    35.875
-                ])
-            },
-            "properties": {
-                "name": "\u4ec1\u7530\u5c71",
-                "altitude": "1211"
-            }
-        },
 
-    ]
+async function readJson() {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type','text/json; charset=UTF-8');
+
+    const response = await fetch('hannou100.geojson', myHeaders)
+    return response.json()
 }
 
+var Hannou100 = await readJson()
 
 const vectorSource = new VectorSource({
     features: new GeoJSON().readFeatures(Hannou100)
