@@ -10,15 +10,16 @@ import View from 'ol/View';
 import XYZ from 'ol/source/XYZ';
 import {fromLonLat} from 'ol/proj';
 import {Attribution, defaults as defaultControls} from 'ol/control';
-import {Circle, Stroke, Style} from 'ol/style';
+import {Circle, Fill, RegularShape, Stroke, Style} from 'ol/style';
 import {Vector as VectorSource} from 'ol/source';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'ol/interaction';
 
-const image = new Circle({
-    radius: 8,
-    fill: null,
-    stroke: new Stroke({color: 'blue', width: 3}),
+const image = new RegularShape({
+    radius: 12,
+    points: 3,
+    fill: new Fill({color: [255, 0, 0, 0.6]}),
+    stroke: null,
 })
 
 const styles = {
@@ -120,7 +121,6 @@ function handleMoveEvent(evt) {
         }
     }
 }
-
 
 var map = new Map({
     target: 'map',
