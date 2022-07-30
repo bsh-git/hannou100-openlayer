@@ -145,7 +145,7 @@ function handleDownEvent(evt) {
         let name = feature.get('name')
         let alt = feature.get('altitude')
         let lat = feature.get('latitude')
-        let lon = feature.get('longtitude')
+        let lon = feature.get('longitude')
 
         let urls = ""
         let u = feature.get('url1')

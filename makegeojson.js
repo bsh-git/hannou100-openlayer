@@ -34,7 +34,7 @@ function makeFeature(no, name, alt, yamareco, yamap, lat, lon) {
         "name": name,
         "altitude": alt,
         "latitude": lat,
-        "longtitude": lon,
+        "longitude": lon,
     }
 
     if (yamareco != '' && yamareco != '-') {
