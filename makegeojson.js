@@ -29,19 +29,28 @@ function makeFeature(no, name, alt, yamareco, yamap, lat, lon) {
     let latf = lonlatToFloat(lat)
     let lonf = lonlatToFloat(lon)
 
+    let props = {
+        "number": parseInt(no),
+        "name": name,
+        "altitude": alt,
+        "latitude": lat,
+        "longtitude": lon,
+    }
+
+    if (yamareco != '' && yamareco != '-') {
+        props['url1'] = yamareco
+    }
+    if (yamap != '' && yamap != '-') {
+        props['url2'] = yamap
+    }
+
     return {
         "type": "Feature",
         "geometry": {
             "type": "Point",
             "coordinates": fromLonLat([lonf, latf])
         },
-        "properties": {
-            "number": parseInt(no),
-            "name": name,
-            "altitude": alt,
-            "latitude": lat,
-            "longtitude": lon,
-        }
+        "properties": props
     }
 
 }

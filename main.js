@@ -11,9 +11,12 @@ import XYZ from 'ol/source/XYZ';
 import {fromLonLat} from 'ol/proj';
 import {Attribution, defaults as defaultControls} from 'ol/control';
 import {Circle, Fill, RegularShape, Stroke, Style} from 'ol/style';
+import Overlay from 'ol/Overlay'
 import {Vector as VectorSource} from 'ol/source';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'ol/interaction';
+
+const GEOJSONFILE = 'hannou100.geojson'
 
 const image = new RegularShape({
     radius: 12,
@@ -31,6 +34,10 @@ const styleFunction = function (feature) {
 };
 
 
+const popup = new Overlay({
+    element: document.getElementById('popup')
+})
+
 const attribution = new Attribution({
     collapsible: true,
 });
@@ -39,7 +46,7 @@ function readJson() {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type','text/json; charset=UTF-8');
 
-    fetch('hannou100.geojson', myHeaders)
+    fetch(GEOJSONFILE, myHeaders)
         .then(response => response.json())
         .then(json => {
             let vectorSource = new VectorSource({
@@ -59,7 +66,7 @@ function readJson() {
 class Inspection extends PointerInteraction {
   constructor() {
     super({
-//      handleDownEvent: handleDownEvent,
+      handleDownEvent: handleDownEvent,
 //      handleDragEvent: handleDragEvent,
       handleMoveEvent: handleMoveEvent,
 //      handleUpEvent: handleUpEvent,
@@ -122,6 +129,48 @@ function handleMoveEvent(evt) {
     }
 }
 
+/**
+ * @param evt Event.
+ */
+function handleDownEvent(evt) {
+    const map = evt.map;
+    const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+        return feature;
+    });
+    const element = popup.getElement()
+
+    $(element).popover('dispose')
+    if (feature) {
+        let number = feature.get('number')
+        let name = feature.get('name')
+        let alt = feature.get('altitude')
+        let lat = feature.get('latitude')
+        let lon = feature.get('longtitude')
+
+        let urls = ""
+        let u = feature.get('url1')
+        if (u) {
+            urls += `<a href="${u}" target="_blank">Yamareco</a> `
+        }
+        u = feature.get('url2')
+        if (u) {
+            urls += `<a href="${u}" target="_blank">Yamap</a>`
+        }
+
+        popup.setPosition(evt.coordinate)
+        $(element).popover({
+            container: element,
+            placement: 'top',
+            html: true,
+            title: `${number} ${name}`,
+            content: `${alt} m<br>北緯 ${lat}<br>東経 ${lon}<br>${urls}`
+        })
+        $(element).popover('show')
+    }
+    return false
+}
+
+
 var map = new Map({
     target: 'map',
     renderer: ['canvas', 'dom'],
@@ -141,5 +190,7 @@ var map = new Map({
         zoom: 12
     })
 });
+
+map.addOverlay(popup)
 
 readJson()
