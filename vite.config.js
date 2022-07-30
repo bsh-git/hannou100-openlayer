@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-    base: "/hannou100-openlayer/"
+    base: "/hannou100-openlayers/"
 })
