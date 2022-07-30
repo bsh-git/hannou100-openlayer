@@ -8,13 +8,14 @@ import GeoJSON from 'ol/format/GeoJSON';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import XYZ from 'ol/source/XYZ';
-import {fromLonLat} from 'ol/proj';
+import {fromLonLat, toLonLat} from 'ol/proj';
 import {Attribution, defaults as defaultControls} from 'ol/control';
 import {Circle, Fill, RegularShape, Stroke, Style} from 'ol/style';
 import Overlay from 'ol/Overlay'
 import {Vector as VectorSource} from 'ol/source';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'ol/interaction';
+import {toStringHDMS} from 'ol/coordinate';
 
 const GEOJSONFILE = 'hannou100.geojson'
 
@@ -116,16 +117,19 @@ function handleMoveEvent(evt) {
             let name = feature.get('name')
             let number = feature.get('number')
 
-            document.getElementById('info').innerHTML = `${number}. ${name}`
+            document.getElementById('mtname').innerHTML = `${number}. ${name}`
 
         } else {
-            document.getElementById('info').innerHTML = ""
+            document.getElementById('mtname').innerHTML = ""
 
             if (this.previousCursor_ !== undefined) {
                 element.style.cursor = this.previousCursor_;
                 this.previousCursor_ = undefined;
             }
         }
+
+        let hdms = toStringHDMS(toLonLat(evt.coordinate), 2);
+        document.getElementById('coordinate').innerHTML = hdms
     }
 }
 
