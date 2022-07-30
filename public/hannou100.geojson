@@ -1444,6 +1444,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          15495246.393708976,
+          4292143.2672330495
+        ]
+      },
+      "properties": {
+        "number": 78,
+        "name": "秋葉山",
+        "altitude": "360",
+        "latitude": "35°56'18.1\"",
+        "longtitude": "139°11'46.2\"",
+        "url2": "https://yamap.com/landmarks/163693"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           15498796.248582048,
           4287633.73175934
         ]
@@ -1475,6 +1493,24 @@
         "longtitude": "139°16'29\"",
         "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=5302",
         "url2": "https://yamap.com/landmarks/85067"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15497154.286092846,
+          4281634.099369734
+        ]
+      },
+      "properties": {
+        "number": 81,
+        "name": "加久良山",
+        "altitude": "348",
+        "latitude": "35°51'42.8\"",
+        "longtitude": "139°12'47.9\"",
+        "url2": "https://yamap.com/mountains/6999"
       }
     },
     {
