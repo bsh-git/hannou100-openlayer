@@ -43,6 +43,8 @@ const attribution = new Attribution({
     collapsible: true,
 });
 
+var coordinates = []
+
 function readJson() {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type','text/json; charset=UTF-8');
@@ -50,17 +52,32 @@ function readJson() {
     fetch(GEOJSONFILE, myHeaders)
         .then(response => response.json())
         .then(json => {
+            let features = new GeoJSON().readFeatures(json)
             let vectorSource = new VectorSource({
-                features: new GeoJSON().readFeatures(json)
+                features: features
             });
 
             map.addLayer(new VectorLayer({
                 source: vectorSource,
-//                style: styleFunction,
                 style: new Style({
                     image: image
                 })
             }))
+
+            let list = document.getElementById('mountains')
+            features.forEach(f => {
+                let number = f.get('number')
+                let name = f.get('name')
+                let coord = f.getGeometry().getCoordinates()
+                let li = document.createElement("div")
+                li.appendChild(document.createTextNode(`${number}: ${name}`))
+                li.onclick = function(_event) {
+                    map.getView().setCenter(coord)
+                    // without this delay (0.5), popup may fail to showup
+                    setTimeout(() => showPopup(coord, f), 0.5)
+                }
+                list.appendChild(li)
+            })
         })
 }
 
@@ -68,9 +85,7 @@ class Inspection extends PointerInteraction {
   constructor() {
     super({
       handleDownEvent: handleDownEvent,
-//      handleDragEvent: handleDragEvent,
       handleMoveEvent: handleMoveEvent,
-//      handleUpEvent: handleUpEvent,
     });
 
     /**
@@ -141,6 +156,11 @@ function handleDownEvent(evt) {
     const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
         return feature;
     });
+    showPopup(evt.coordinate, feature)
+    return false
+}
+
+function showPopup(coord, feature) {
     const element = popup.getElement()
 
     $(element).popover('dispose')
@@ -161,7 +181,7 @@ function handleDownEvent(evt) {
             urls += `<a href="${u}" target="_blank">Yamap</a>`
         }
 
-        popup.setPosition(evt.coordinate)
+        popup.setPosition(coord)
         $(element).popover({
             container: element,
             placement: 'top',
