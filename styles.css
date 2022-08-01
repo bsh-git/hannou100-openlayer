@@ -47,6 +47,10 @@
   overflow-x: hidden;
 }
 
+.warpto {
+    cursor: pointer;
+}
+
 .sidebarbutton {
     text-alignment: right;
 }

@@ -70,6 +70,7 @@ function readJson() {
                 let name = f.get('name')
                 let coord = f.getGeometry().getCoordinates()
                 let li = document.createElement("div")
+                li.setAttribute('class', 'warpto')
                 li.appendChild(document.createTextNode(`${number}: ${name}`))
                 li.onclick = function(_event) {
                     map.getView().setCenter(coord)
