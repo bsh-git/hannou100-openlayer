@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header, .footer {
+  height: 3em;
+  background-color: lightcyan;
+  box-sizing: border-box;
+  border: 8px solid blue;
+}
+
+.header h1 {
+    font-size: 2em;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  //flex-grow: 0;
+  //flex-shrink: 1;
+}
+
+.sidebar {
+  width: 96px;
+  // XXX
+  //height: 95vh;
+  //height: 40em;
+  max-height: 95vh;
+  min-height: 95vh;
+  overflow-y: auto;
+  background-color: moccasin;
+  box-sizing: border-box;
+  border: 8px solid chocolate;
+}
+
+.sidebarlist {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebarbutton {
+    text-alignment: right;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.flex-content {
+  flex-grow: 1;
+  background-color: palegoldenrod;
+  box-sizing: border-box;
+  border: 8px solid green;
+}
+
+.fixed-content {
+  background-color: thistle;
+  box-sizing: border-box;
+  border: 8px solid darkmagenta;
+}
+
+.popover-body {
+    min-width: 276px;
+}
