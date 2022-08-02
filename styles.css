@@ -13,9 +13,9 @@
 
 .header, .footer {
   height: 3em;
-  background-color: lightcyan;
   box-sizing: border-box;
-  border: 8px solid blue;
+  /*background-color: lightcyan;*/
+  /*border: 8px solid blue; */
 }
 
 .header h1 {
@@ -25,21 +25,18 @@
 .main {
   display: flex;
   flex-direction: row;
-  //flex-grow: 0;
-  //flex-shrink: 1;
+  /*flex-grow: 0;
+    flex-shrink: 1; */
 }
 
 .sidebar {
   width: 20em;
-  // XXX
-  //height: 95vh;
-  //height: 40em;
   max-height: 95vh;
   min-height: 95vh;
   overflow-y: auto;
   background-color: moccasin;
   box-sizing: border-box;
-  border: 8px solid chocolate;
+  /*border: 8px solid chocolate;*/
 }
 
 .sidebarlist {
@@ -65,13 +62,13 @@
   flex-grow: 1;
   background-color: palegoldenrod;
   box-sizing: border-box;
-  border: 8px solid green;
+  /*border: 8px solid green;*/
 }
 
 .fixed-content {
-  background-color: thistle;
+  /*background-color: thistle;*/
   box-sizing: border-box;
-  border: 8px solid darkmagenta;
+  /*border: 8px solid darkmagenta;*/
 }
 
 .popover-body {
