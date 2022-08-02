@@ -17,6 +17,8 @@ import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'ol/interaction';
 import {toStringHDMS} from 'ol/coordinate';
 
+import {sprintf} from 'sprintf';
+
 const GEOJSONFILE = 'hannou100.geojson'
 
 const image = new RegularShape({
@@ -71,7 +73,7 @@ function readJson() {
                 let coord = f.getGeometry().getCoordinates()
                 let li = document.createElement("div")
                 li.setAttribute('class', 'warpto')
-                li.appendChild(document.createTextNode(`${number}: ${name}`))
+                li.innerHTML = sprintf("%03d: ", number) + name
                 li.onclick = function(_event) {
                     map.getView().setCenter(coord)
                     // without this delay (0.5), popup may fail to showup
