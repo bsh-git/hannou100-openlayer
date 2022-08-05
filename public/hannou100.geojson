@@ -745,16 +745,16 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          15492117.079134451,
-          4288244.566924163
+          15492150.47498169,
+          4288276.636718254
         ]
       },
       "properties": {
         "number": 40,
         "name": "中ノ沢ノ頭",
         "altitude": "622",
-        "latitude": "35°54'36\"",
-        "longitude": "139°10'05\"",
+        "latitude": "35°54'36.84\"",
+        "longitude": "139°10'06.08\"",
         "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=4236",
         "url2": "https://yamap.com/mountains/16283"
       }
