@@ -72,3 +72,10 @@ div#controls span {
 .popover-body {
     min-width: 276px;
 }
+
+.tooltipmark {
+    color: white;
+    background: black;
+    border-radius: 5pt;
+    cursor: help;
+}

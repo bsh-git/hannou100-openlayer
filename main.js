@@ -287,3 +287,7 @@ var map = new Map({
 map.addOverlay(popup)
 
 readJson()
+
+
+var tooltip = new bootstrap.Tooltip(document.getElementById('hintforsave'))
+
