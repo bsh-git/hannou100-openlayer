@@ -86,4 +86,6 @@ span#mtname {
     width: 14em;
     height: 2em;
     border: 1px solid black;
+    text-align: right;
+    padding: 3px;
 }
