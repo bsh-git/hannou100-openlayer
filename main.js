@@ -23,11 +23,8 @@ import {Stamp} from './stamp';
 const GEOJSONFILE = 'hannou100.geojson'
 const LOCALSTORAGENAME = 'hannou100'
 
-var saveLocal = false
-document.getElementById('savetolocal').addEventListener('change', (event) => {
-    saveLocal = event.target.checked
-    if (saveLocal)
-        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
+document.getElementById('savetolocal').addEventListener('click', (event) => {
+    window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
 })
 
 var url = new URL(window.location.href)
@@ -64,8 +61,6 @@ function updateStamp(index, on) {
         stamp.unset(index)
 
     updateShareLink()
-    if (saveLocal)
-        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
 }
 
 
