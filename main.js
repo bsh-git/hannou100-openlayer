@@ -23,24 +23,29 @@ import {Stamp} from './stamp';
 const GEOJSONFILE = 'hannou100.geojson'
 const LOCALSTORAGENAME = 'hannou100'
 
-document.getElementById('savetolocal').addEventListener('click', (event) => {
-    window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
-})
 
 var url = new URL(window.location.href)
+var sharedURL = false
 var stamp = (function () {
     // https://....?stamp=val0,val1,val2
+    const backurl = document.getElementById('backtolocal')
     const param = url.searchParams.get('stamp')
-    if (param)
+    if (param) {
         stamp = new Stamp(param)
+        sharedURL = true
+        backurl.hidden = false
+        url.search = ''  // remove ?stamp=...
+        backurl.querySelector('a').href = url
+    }
     else {
         const fromStorage = window.localStorage.getItem(LOCALSTORAGENAME)
         stamp = new Stamp(fromStorage)
+        backurl.hidden = true
+
     }
     return stamp
 })()
 
-url.search = ''  // remove ?stamp=...
 
 function updateShareLink() {
     document.getElementById('sharelink').href =
@@ -52,6 +57,31 @@ function updateShareLink() {
 }
 
 updateShareLink()
+
+var saveConfirmDialog = (function(){
+    let dialog =  new bootstrap.Modal(document.getElementById('saveConfirmDialog'), {backdrop: 'static'})
+    document.querySelector('div#saveConfirmDialog button.btn-primary').onclick = () => {
+        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
+        dialog.hide()
+        // re-open normal URL
+        window.location.href = url
+    }
+    document.querySelector('div#saveConfirmDialog button.btn-secondary').onclick = () => {
+        dialog.hide()
+    }
+    document.querySelector('div#saveConfirmDialog button.btn-close').onclick = () => {
+        dialog.hide()
+    }
+
+    return dialog
+})()
+
+document.getElementById('savetolocal').addEventListener('click', (event) => {
+    if (sharedURL)
+        saveConfirmDialog.show()
+    else
+        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
+})
 
 
 function updateStamp(index, on) {
@@ -284,5 +314,6 @@ map.addOverlay(popup)
 readJson()
 
 
-var tooltip = new bootstrap.Tooltip(document.getElementById('hintforsave'))
+// ?これがなくてもtooltip は出るが、スタイルが反映されない?
+var tooltips = ['hintforsave', 'hintforurl', 'hintforback'].map(id => new bootstrap.Tooltip(document.getElementById(id)))
 

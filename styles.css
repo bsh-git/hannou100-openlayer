@@ -78,4 +78,5 @@ div#controls span {
     background: black;
     border-radius: 5pt;
     cursor: help;
+    margin: 0px !important;
 }
