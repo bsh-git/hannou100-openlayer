@@ -245,10 +245,10 @@ function showPopup(coord, feature) {
             container: element,
             placement: 'top',
             html: true,
-            title: `${number} ${name}   <input class="stampcb" type="checkbox" ${checked} onclick=foo>`,
+            title: `${number} ${name}`,
             sanitize: false,
             trigger: 'manual',
-            content: `${alt} m<br>北緯 ${lat}<br>東経 ${lon}<br>${urls}`
+            content: `<span><span>${alt} m</span><span style="float:right">登頂済: <input class="stampcb" type="checkbox" ${checked} onclick=foo></span></span><br>北緯 ${lat}<br>東経 ${lon}<br>${urls}`
         })
         $(element).popover('show')
 
