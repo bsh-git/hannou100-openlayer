@@ -18,24 +18,78 @@ import {Pointer as PointerInteraction, defaults as defaultInteractions,} from 'o
 import {toStringHDMS} from 'ol/coordinate';
 
 import {sprintf} from 'sprintf';
+import {Stamp} from './stamp';
 
 const GEOJSONFILE = 'hannou100.geojson'
+const LOCALSTORAGENAME = 'hannou100'
 
-const image = new RegularShape({
+var saveLocal = false
+document.getElementById('savetolocal').addEventListener('change', (event) => {
+    saveLocal = event.target.checked
+    if (saveLocal)
+        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
+})
+
+var url = new URL(window.location.href)
+var stamp = (function () {
+    // https://....?stamp=val0,val1,val2
+    const param = url.searchParams.get('stamp')
+    if (param)
+        stamp = new Stamp(param)
+    else {
+        const fromStorage = window.localStorage.getItem(LOCALSTORAGENAME)
+        stamp = new Stamp(fromStorage)
+    }
+    return stamp
+})()
+
+url.search = ''  // remove ?stamp=...
+
+function updateShareLink() {
+    document.getElementById('sharelink').href =
+        url.href + '?stamp=' + stamp.toString()
+}
+
+updateShareLink()
+
+
+function updateStamp(index, on) {
+    if (on)
+        stamp.set(index)
+    else
+        stamp.unset(index)
+
+    updateShareLink()
+    if (saveLocal)
+        window.localStorage.setItem(LOCALSTORAGENAME, stamp.toString())
+}
+
+
+const summit_r = new RegularShape({
     radius: 12,
     points: 3,
     fill: new Fill({color: [255, 0, 0, 0.6]}),
     stroke: null,
 })
 
-const styles = {
-    'Point': new Style({image: image}),
+
+const summit_b = new RegularShape({
+    radius: 12,
+    points: 3,
+    fill: new Fill({color: [0, 0, 255, 0.6]}),
+    stroke: null,
+})
+
+
+const styles = [
+    new Style({image: summit_r}),      // 未踏
+    new Style({image: summit_b})       // 登頂済
+]
+
+function styleFunction (feature) {
+    let number = feature.get('number')
+    return styles[stamp.isset(number) ? 1 : 0]
 }
-
-const styleFunction = function (feature) {
-  return styles[feature.getGeometry().getType()];
-};
-
 
 const popup = new Overlay({
     element: document.getElementById('popup')
@@ -44,8 +98,6 @@ const popup = new Overlay({
 const attribution = new Attribution({
     collapsible: true,
 });
-
-var coordinates = []
 
 function readJson() {
     var myHeaders = new Headers();
@@ -61,9 +113,7 @@ function readJson() {
 
             map.addLayer(new VectorLayer({
                 source: vectorSource,
-                style: new Style({
-                    image: image
-                })
+                style: styleFunction
             }))
 
             let list = document.getElementById('mountains')
@@ -184,15 +234,27 @@ function showPopup(coord, feature) {
             urls += `<a href="${u}" target="_blank">Yamap</a>`
         }
 
+        const checked = stamp.isset(number) ? 'checked' : '';
+
         popup.setPosition(coord)
         $(element).popover({
             container: element,
             placement: 'top',
             html: true,
-            title: `${number} ${name}`,
+            title: `${number} ${name}   <input class="stampcb" type="checkbox" ${checked} onclick=foo>`,
+            sanitize: false,
+            trigger: 'manual',
             content: `${alt} m<br>北緯 ${lat}<br>東経 ${lon}<br>${urls}`
         })
         $(element).popover('show')
+
+        let cb = document.querySelector('input.stampcb')
+        cb.onclick = () => {
+            updateStamp(number, cb.checked)
+            feature.setStyle(styles[cb.checked ? 1 : 0])
+
+        }
+
     }
     return false
 }
