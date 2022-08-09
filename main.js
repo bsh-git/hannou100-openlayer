@@ -48,6 +48,10 @@ url.search = ''  // remove ?stamp=...
 function updateShareLink() {
     document.getElementById('sharelink').href =
         url.href + '?stamp=' + stamp.toString()
+
+    let count = stamp.count
+    document.getElementById('visitedcount').innerHTML = `${count}/112`
+
 }
 
 updateShareLink()
