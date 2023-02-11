@@ -423,18 +423,16 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          15497495.665864613,
-          4279700.571458329
+          15495875.348831953,
+          4295511.174673961
         ]
       },
       "properties": {
         "number": 23,
         "name": "大仁田山",
         "altitude": "782",
-        "latitude": "35°50'52.12\"",
-        "longitude": "139°12'58.94\"",
-        "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=3587",
-        "url2": "https://yamap.com/mountains/16250"
+        "latitude": "35°57'46.27\"",
+        "longitude": "139°12'06.54\""
       }
     },
     {
