@@ -4,10 +4,12 @@
 set -ex
 
 npm run build
-cd dist
+cd dist || exit 1
 
-#git init
-#git checkout -b main
+if [ ! -d .git ]; then
+    git init
+    git checkout -b main
+fi
 git add -A
 git commit -m"deploy"
 
