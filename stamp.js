@@ -12,7 +12,7 @@ export class Stamp {
 
     constructor(str) {
         if (str) {
-            this.#bits = str.split(',').map(s => {
+            this.#bits = str.split(/[-,]/).map(s => {
                 return parseInt(s, 16)
             })
 
@@ -59,6 +59,6 @@ export class Stamp {
     }
 
     toString() {
-        return this.#bits.map(d => d.toString(16)).join(',')
+        return this.#bits.map(d => d.toString(16)).join('-')
     }
 }
