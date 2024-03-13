@@ -41,7 +41,7 @@ function makeFeature(no, name, alt, yamareco, yamap, lat, lon) {
     let [latf, lats] = lonlatToFloat(lat)
     let [lonf, lons] = lonlatToFloat(lon)
 
-    console.error([no, lon, lonf, lat, latf].join(" "));
+    //console.error("makeFeature: " + [no, lon, lonf, lat, latf].join(" "));
 
     let props = {
         "number": parseInt(no),
@@ -134,7 +134,9 @@ else {
     var name
     
     for (let line of content.split('\n')) {
+        //console.error(">> " + line)
         let a = line.split('\t')
+        if (a.length < 3) continue
 
         let no = parseInt(a[0])
 
@@ -147,7 +149,7 @@ else {
         case "D":
             let peakcorrection
             [lon, lat, elev, yamareco, yamap_typ, yamap, listinfo, peakcorrection] = a.splice(2)
-            console.error([no, lon, lat].join(" "))
+            //console.error("|>" + [no, lon, lat].join(" "))
             break
         case "N":
         case "N1":
@@ -156,6 +158,9 @@ else {
                 name = a[2]
             else
                 name = name + "(" + a[2] + ")"
+            break
+        default:
+            console.error("Unknwon type " + a[1])
         }
 
         last_no = no
@@ -167,7 +172,7 @@ else {
 }
 
 function flush(no, name, lon, lat, elev, yamareco, yamap, yamap_typ) {
-    console.error([no, name, lon, lat, yamap, yamap_typ].join(" "))
+    //console.error("flush: " + [no, name, lon, lat, yamap, yamap_typ].join(" "))
     let yamareco_url = (yamareco && yamareco !== '-') ? `https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=${yamareco}` : ""
     let yamap_url = ""
     if (yamap && yamap !== '-') {
