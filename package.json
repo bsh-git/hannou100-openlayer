@@ -11,7 +11,7 @@
   "devDependencies": {
     "eslint": "^8.20.0",
     "ol": "^6.15.1",
-    "vite": "^3.0.0"
+    "vite": "^5.0.0"
   },
   "dependencies": {
     "node-getopt": "^0.3.2",
