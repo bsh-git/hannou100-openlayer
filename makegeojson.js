@@ -130,7 +130,7 @@ if (tsv_ver == '1') {
 }
 else {
     var last_no
-    var lon, lat, elev, yamareco, yamap_typ, yamap, listinfo
+    var lon, lat, elev, yamareco, yamap_typ, yamap, listinfo, prefectures
     var name
     
     for (let line of content.split('\n')) {
@@ -141,14 +141,19 @@ else {
         let no = parseInt(a[0])
 
         if (last_no && no != last_no) {
-            flush(last_no, name, lon, lat, elev, yamareco, yamap, yamap_typ)
+            try {
+                flush(last_no, name, lon, lat, elev, yamareco, yamap, yamap_typ)
+            } catch (ex) {
+                console.error("Error" + ex + " on line : " + line)
+            }
             name = undefined
         }
         
+        let peakcorrection
+
         switch (a[1]) {
         case "D":
-            let peakcorrection
-            [lon, lat, elev, yamareco, yamap_typ, yamap, listinfo, peakcorrection] = a.splice(2)
+            [lon, lat, elev, prefectures, yamareco, yamap_typ, yamap, listinfo, peakcorrection] = a.splice(2)
             //console.error("|>" + [no, lon, lat].join(" "))
             break
         case "N":
@@ -159,6 +164,9 @@ else {
             else
                 name = name + "(" + a[2] + ")"
             break
+        case "L":
+            // ignore this line
+            continue
         default:
             console.error("Unknwon type " + a[1])
         }
@@ -179,7 +187,7 @@ function flush(no, name, lon, lat, elev, yamareco, yamap, yamap_typ) {
         let pt = YAMAP_PT_TYPE[parseInt(yamap_typ)]
         yamap_url = `https://yamap.com/${pt}/${yamap}`
     }
-    features.push(makeFeature(no - 10000 + 1, name, elev, yamareco_url, yamap_url, lat, lon))
+    features.push(makeFeature(no, name, elev, yamareco_url, yamap_url, lat, lon))
 }
 
 console.log(JSON.stringify({"type": "FeatureCollection", "features": features}, null, 2))
