@@ -1714,7 +1714,8 @@
         "name": "仙谷山",
         "altitude": "300",
         "latitude": "35°52'45.78\"",
-        "longitude": "139°15'19.14\""
+        "longitude": "139°15'19.14\"",
+        "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=65013"
       }
     },
     {
@@ -2029,7 +2030,8 @@
         "name": "不動山",
         "altitude": "220",
         "latitude": "35°53'03.10\"",
-        "longitude": "139°16'04.10\""
+        "longitude": "139°16'04.10\"",
+        "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=65020"
       }
     },
     {
@@ -2075,16 +2077,16 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          15507701.807845512,
-          4281641.730388959
+          15507720.627263082,
+          4281652.366848353
         ]
       },
       "properties": {
         "number": 111,
         "name": "天覧山",
         "altitude": "195",
-        "latitude": "35°51'43\"",
-        "longitude": "139°18'29\"",
+        "latitude": "35°51'43.2788\"",
+        "longitude": "139°18'29.6086\"",
         "url1": "https://www.yamareco.com/modules/yamainfo/ptinfo.php?ptid=4543",
         "url2": "https://yamap.com/mountains/16254"
       }
